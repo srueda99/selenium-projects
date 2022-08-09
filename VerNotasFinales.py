@@ -1,10 +1,15 @@
 from io import UnsupportedOperation
 import unittest
+import os
+from dotenv import load_dotenv
 from pyunitreport import HTMLTestRunner
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
 from webdriver_manager.chrome import ChromeDriverManager
+
+# Carga las variables de entorno
+load_dotenv()
 
 class HelloWorld(unittest.TestCase):
 
@@ -14,10 +19,9 @@ class HelloWorld(unittest.TestCase):
         cls.driver.implicitly_wait(10)
     
     def testSIGAA(self):
-        # Variables de inicio de sesión y número de materias
-        usuario = '000475627'
-        contrasena = '8041235*'
-        num_materias = 4
+        # Variables de inicio de sesión
+        usuario = os.getenv("SIGAA_USER")
+        contrasena = os.getenv("SIGAA_PASSWORD")
         # Se dirige a la página de SIGAA UPB
         self.driver.get('https://sigaa.upb.edu.co/BANPDN/twbkwbis.P_WWWLogin')
         # Localiza los campos a llenar
@@ -37,6 +41,10 @@ class HelloWorld(unittest.TestCase):
         notas_menu.click()
         enviar_btn = self.driver.find_element(by = By.ID, value = 'id____UID6')
         enviar_btn.click()
+        # Cuenta el número de materias del estudiante
+        materias_tabla = self.driver.find_element(by = By.XPATH, value = '//*[@id="contentHolder"]/div[2]/table[2]')
+        materias = materias_tabla.find_elements(by = By.TAG_NAME, value = 'tr')
+        num_materias = len(materias)-1
         # Extrae los datos de la tabla
         tabla = []
         for i in range(num_materias):

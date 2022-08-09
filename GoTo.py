@@ -1,10 +1,15 @@
 # Imports
 import unittest
+import os
+from dotenv import load_dotenv
 from pyunitreport import HTMLTestRunner
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
 from webdriver_manager.chrome import ChromeDriverManager
+
+# Loads the env variables
+load_dotenv()
 
 class HelloWorld(unittest.TestCase):
     @classmethod
@@ -13,6 +18,9 @@ class HelloWorld(unittest.TestCase):
         cls.driver.implicitly_wait(10)
     
     def testNetflix(self):
+        # Get the credentials
+        nflx_user = os.getenv("NFLX_USER")
+        nflx_psswrd = os.getenv("NFLX_PASSWORD")
         # Go to Netflix.com and click on Sign In
         self.driver.get('https://www.netflix.com')
         signIn_Btn = self.driver.find_element(by = By.XPATH, value = '//*[@id="appMountPoint"]/div/div/div/div/div/div[1]/div/a')
@@ -22,8 +30,8 @@ class HelloWorld(unittest.TestCase):
         password = self.driver.find_element(by = By.ID, value = 'id_password')
         signIn_Btn = self.driver.find_element(by = By.XPATH, value = '//*[@id="appMountPoint"]/div/div[3]/div/div/div[1]/form/button')
         # Fill the values
-        username.send_keys('s_rueda_m@hotmail.com')
-        password.send_keys('Netflix_family123')
+        username.send_keys(nflx_user)
+        password.send_keys(nflx_psswrd)
         signIn_Btn.click()
         # Choose a profile to watch
         profile = self.driver.find_element(by = By.XPATH, value = '//*[@id="appMountPoint"]/div/div/div[1]/div[1]/div[2]/div/div/ul/li[1]/div/a')
