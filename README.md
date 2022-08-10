@@ -6,3 +6,4 @@
 
 - pip install selenium
 - pip install pyunitreport
+- pip install webdriver-manager
