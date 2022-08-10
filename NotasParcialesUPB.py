@@ -1,5 +1,4 @@
 # Imports
-from io import UnsupportedOperation
 import unittest
 import os
 from dotenv import load_dotenv

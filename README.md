@@ -1,1 +1,8 @@
-# selenium-projects
+# Ver notas UPB
+
+## Instrucciones
+
+### Solo la primera vez que se corra
+
+- pip install selenium
+- pip install pyunitreport
